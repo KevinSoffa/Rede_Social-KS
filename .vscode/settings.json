@@ -1,0 +1,10 @@
+{
+    "git-graph.repository.commits.showSignatureStatus": true,
+    "editor.suggest.showStatusBar": true,
+    "gitHistory.includeRemoteBranches": true,
+    "git-graph.repository.onLoad.showCheckedOutBranch": true,
+    "git-graph.referenceLabels.combineLocalAndRemoteBranchLabels": true,
+    "openInGitHub.providerType": "github",
+    "scm.diffDecorationsIgnoreTrimWhitespace": "false",
+    "scm.defaultViewMode": "tree"
+}
