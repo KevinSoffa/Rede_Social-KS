@@ -128,4 +128,4 @@ dmypy.json
 # Pyre type checker
 .pyre/
 rede_social_venv
-rede_social.db/
+.rede_social.db
