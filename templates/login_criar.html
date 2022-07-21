@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col">
             <form method="POST" action="" class="border p-4 mt-2">
-                {{ form_login.crsf_token }}
+                {{ form_login.csrf_token }}
                 <legend><strong>Login</strong></legend>
                     <fieldset>
                         <div class="form-group">
@@ -20,9 +20,9 @@
                             {{ form_login.senha.label(class="form-control-label") }}
                             {{ form_login.senha(class="form-control") }}
                         </div>
-                        <div class="form-group">
+                        <div class="form-group form-check form-switch">
                             {{ form_login.lembrar_dados.label }}
-                            {{ form_login.lembrar_dados(class="form-check-input") }}
+                            {{ form_login.lembrar_dados(class="form-check-input mt-2") }}
                         </div>
                     </fieldset>
                 {{ form_login.botao_submit_login(class="btn btn-primary mt-2") }}
@@ -30,7 +30,7 @@
         </div>
         <div class="col">
             <form method="POST" action="" class="border p-4 mt-2">
-                {{ form_criar_conta.crsf_token }}
+                {{ form_criar_conta.csrf_token }}
                 <legend><strong>Criar Conta</strong></legend>
                     <fieldset>
                         <div class="form-group">
@@ -56,9 +56,4 @@
     </div>
 </div>
 
-
 {% endblock %}
-
-
-
-Parando no meio da aula 15
