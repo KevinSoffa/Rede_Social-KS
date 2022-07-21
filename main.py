@@ -1,15 +1,22 @@
 from forms import FormCriarConta, FormLogin
+from flask_sqlalchemy import SQLAlchemy
 
 from flask import (
     Flask, 
     render_template,
-    url_for
+    request,
+    flash,
+    redirect,
+    url_for,
 )
 
 
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'aa563b763628c512d458658cb390c583'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///rede_social.db'
+
+database = SQLAlchemy(app)
 
 
 lista_usuarios = ['Kevin', 'Fernanda', 'Leo']
@@ -35,10 +42,19 @@ def usuarios():
     )
 
 
-@app.route('/login_criacao')
+# Criação de Conta e Login
+@app.route('/login_criacao', methods=['GET', 'POST'])
 def login_criacao():
     form_login = FormLogin()
     form_criar_conta = FormCriarConta()
+
+    if form_login.validate_on_submit() and 'botao_submit_login' in request.form:
+        flash(f'Login feito com SUCESSO no E-mail: {form_login.email.data}', 'alert-success')
+        return redirect(url_for('home'))
+
+    if form_criar_conta.validate_on_submit() and 'botao_submit_criarconta' in request.form:
+        flash(f'Conta criada com SUCESSO! {form_criar_conta.email.data}', 'alert-success')
+        return redirect(url_for('home'))
 
     return render_template(
         'login_criar.html',

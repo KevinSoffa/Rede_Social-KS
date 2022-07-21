@@ -11,7 +11,8 @@ from wtforms import (
     StringField,
     PasswordField,
     SubmitField,
-    EmailField
+    EmailField,
+    BooleanField
 )
 
 
@@ -45,6 +46,9 @@ class FormLogin(FlaskForm):
     senha = PasswordField(
         'Senha',
         validators=[DataRequired(), Length(6, 20)]
+    )
+    lembrar_dados = BooleanField(
+        'Permanecer conectado'
     )
     botao_submit_login = SubmitField(
         'Fazer Login'
