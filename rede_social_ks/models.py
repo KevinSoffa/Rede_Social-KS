@@ -1,8 +1,14 @@
+from rede_social_ks import database, login_manager
 from datetime import datetime as dt
-from main import database
+from flask_login import UserMixin
 
 
-class Usuario(database.Model):
+@login_manager.user_loader
+def load_usuario(id_usuario):
+    return Usuario.query.get(int(id_usuario))
+
+
+class Usuario(database.Model, UserMixin):
     id = database.Column(
         database.Integer, 
         primary_key=True
@@ -58,4 +64,3 @@ class Post(database.Model):
         database.ForeignKey('usuario.id'),
         nullable=False,
     )
-#

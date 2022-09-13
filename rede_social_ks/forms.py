@@ -1,10 +1,12 @@
+from rede_social_ks.models import Usuario
 from flask_wtf import FlaskForm
 
 from wtforms.validators import (
     DataRequired,
     Length,
     Email,
-    EqualTo
+    EqualTo,
+    ValidationError
 )
 
 from wtforms import (
@@ -36,6 +38,14 @@ class FormCriarConta(FlaskForm):
     botao_submit_criarconta = SubmitField(
         'Criar Conta'
     )
+
+    def validate_email(self, email):
+        usuario = Usuario.query.filter_by(email=email.data).first()
+        if usuario:
+            raise ValidationError("""ERRO! E-mail já CADASTRADO! 
+                                    Cadastra-se com outro e-mail 
+                                    ou faça Login para começar.
+                                """)
 
 
 class FormLogin(FlaskForm):
