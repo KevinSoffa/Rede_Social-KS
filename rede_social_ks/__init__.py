@@ -14,5 +14,7 @@ database = SQLAlchemy(app)
 #Criptografia da senha de usuário
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
+login_manager.login_view = 'login_criacao'
+login_manager.login_message_category = 'alert-info'
 
 from rede_social_ks import routes

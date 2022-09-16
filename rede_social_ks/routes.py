@@ -2,8 +2,13 @@ import email
 from rede_social_ks.forms import FormCriarConta, FormLogin
 from rede_social_ks.models import Usuario, Post
 from rede_social_ks import app, database, bcrypt
-from flask_login import login_user
 
+from flask_login import (
+    login_user, 
+    logout_user,
+    current_user,
+    login_required
+)
 
 from flask import (
     render_template, 
@@ -31,6 +36,7 @@ def contato():
 
 
 @app.route('/usuarios')
+@login_required # Esse decorator deixa apenas usuarios logados ter acesso a essas URL
 def usuarios():
 
     return render_template(
@@ -77,3 +83,24 @@ def login_criacao():
         form_login=form_login,
         form_criar_conta=form_criar_conta
     )
+
+@app.route('/sair')
+@login_required
+def sair():
+    logout_user()
+    flash('Logout Feito com SUCESSO!', 'alert-success')
+    return redirect(url_for('home'))
+
+
+@app.route('/perfil')
+@login_required
+def perfil():
+    return render_template('perfil.html')
+
+
+@app.route('/post/criar')
+@login_required
+def criar_post():
+    return render_template('post.html')
+
+

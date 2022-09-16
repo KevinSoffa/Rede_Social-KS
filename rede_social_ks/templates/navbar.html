@@ -19,12 +19,24 @@
           </li>
         </ul>
         <ul class="navbar-nav d-flex">
-            <li class="nav-item">
+            {% if current_user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('criar_post') }}">Criar Post</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('perfil') }}">Perfil</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('sair') }}">Sair</a>
+              </li>
+            {% else %}
+              <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('login_criacao') }}">Login</a>
-            </li>
-            <li class="nav-item">
+              </li>
+              <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('login_criacao') }}">Criar Conta</a>
-            </li>
+              </li>
+            {% endif %}
         </ul>
       </div>
     </div>
