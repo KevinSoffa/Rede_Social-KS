@@ -1,4 +1,6 @@
+from flask_wtf.file import FileField, FileAllowed
 from rede_social_ks.models import Usuario
+from flask_login import current_user
 from flask_wtf import FlaskForm
 
 from wtforms.validators import (
@@ -63,3 +65,29 @@ class FormLogin(FlaskForm):
     botao_submit_login = SubmitField(
         'Fazer Login'
     )
+
+
+class FormEditarPerfil(FlaskForm):
+    username = StringField(
+        'Nome de Usuário',
+        validators=[DataRequired()]
+    )
+    email = EmailField(
+        'E-mail',
+        validators=[DataRequired(), Email()]
+    )
+    foto_perfil = FileField(
+        'Atualizar foto de perfil',
+        validators=[FileAllowed(['jpg', 'png'])]
+    )
+    botao_submit_editar_perfil = SubmitField(
+        'Salvar Alterações'
+    )
+
+    def validate_email(self, email): # Validando se e-mail já está cadastrado
+        if current_user.email != email.data:
+            usuario = Usuario.query.filter_by(email=email.data).first()
+            if usuario:
+                raise ValidationError("""ERRO! E-mail já CADASTRADO! 
+                                        Tente com outro e-mail válido.
+                                    """)

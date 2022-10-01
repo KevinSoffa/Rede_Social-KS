@@ -1,7 +1,12 @@
-import email
-from rede_social_ks.forms import FormCriarConta, FormLogin
-from rede_social_ks.models import Usuario, Post
 from rede_social_ks import app, database, bcrypt
+from rede_social_ks.models import Usuario, Post
+from flask_login import current_user
+
+from rede_social_ks.forms import (
+    FormEditarPerfil,
+    FormCriarConta, 
+    FormLogin,
+)
 
 from flask_login import (
     login_user, 
@@ -57,7 +62,14 @@ def login_criacao():
         if usuario and bcrypt.check_password_hash(usuario.senha, form_login.senha.data):
             login_user(usuario, remember=form_login.lembrar_dados.data)
             flash(f'Login feito com SUCESSO no E-mail: {form_login.email.data}', 'alert-success')
-            return redirect(url_for('home'))
+            
+            par_next = request.args.get('next')
+            if par_next:
+                return redirect(par_next)
+            
+            else:
+                return redirect(url_for('home'))
+
         else:
              flash(f'Falha no Login. E-mail ou Senha Incorretos: {form_login.email.data}', 'alert-danger')
 
@@ -84,6 +96,7 @@ def login_criacao():
         form_criar_conta=form_criar_conta
     )
 
+
 @app.route('/sair')
 @login_required
 def sair():
@@ -95,7 +108,10 @@ def sair():
 @app.route('/perfil')
 @login_required
 def perfil():
-    return render_template('perfil.html')
+    foto_perfil = url_for(
+        'static', 
+        filename=f'fotos_perfil/{current_user.foto_perfil}') 
+    return render_template('perfil.html', foto_perfil=foto_perfil)
 
 
 @app.route('/post/criar')
@@ -103,4 +119,29 @@ def perfil():
 def criar_post():
     return render_template('post.html')
 
+
+@app.route('/perfil/editar',  methods=['POST', 'GET'])
+@login_required
+def editar_perfil():
+    form = FormEditarPerfil()
+    if form.validate_on_submit():
+        current_user.email = form.email.data
+        current_user.username = form.username.data
+        database.session.commit()
+        flash('Alterações salvas com SUCESSO!', 'alert-success')
+        return redirect(url_for('perfil'))
+    
+    elif request.method == 'GET':
+        form.email.data = current_user.email
+        form.username.data = current_user.username
+
+    _foto_perfil = url_for(
+        'static', 
+        filename=f'fotos_perfil/{current_user.foto_perfil}') 
+
+    return render_template(
+        'editar_perfil.html', 
+        foto_perfil=_foto_perfil,
+        form=form
+    )
 

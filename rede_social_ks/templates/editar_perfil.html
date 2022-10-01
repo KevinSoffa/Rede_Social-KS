@@ -1,0 +1,38 @@
+{% extends 'perfil.html' %}
+
+
+{% block form_editar_perfil %}
+<div class="container">
+    <hr>
+    <div class="row">
+        <div class="col">
+            <form method="POST" action="" class="border p-4 mt-2" enctype="multipart/form-data">
+                {{ form.csrf_token }}
+                <legend><strong>Editar Informações de Usuário</strong></legend>
+                    <fieldset>
+                        <div class="form-group">
+                            {{ form.username.label(class="form-control-label") }}
+                            {{ form.username(class="form-control ") }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.email.label(class="form-control-label") }}
+                            {{ form.email(class="form-control") }}
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            {{ form.foto_perfil.label }}
+                            {{ form.foto_perfil(class="form-control-file") }}
+                            {% if form.foto_perfil.errors %}
+                                {% for erro in form.foto_perfil.errors %}
+                                    <span class="text-danger">{{ erro }}</span><br>
+                                {% endfor %}
+                            {% endif %}
+
+                        </div>
+                    </fieldset>
+                {{ form.botao_submit_editar_perfil(class="btn btn-primary mt-2") }}
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
