@@ -1,6 +1,9 @@
+import secrets
+import os
 from rede_social_ks import app, database, bcrypt
 from rede_social_ks.models import Usuario, Post
 from flask_login import current_user
+from PIL import Image
 
 from rede_social_ks.forms import (
     FormEditarPerfil,
@@ -97,6 +100,25 @@ def login_criacao():
     )
 
 
+def salvar_imagem(imagem):
+    codigo = secrets.token_hex(8)
+
+    #Mudando Nome de Arquivo
+    nome, extensao = os.path.splitext(imagem.filename)
+    nome_arquivo = nome + codigo + extensao
+    caminho_completo = os.path.join(app.root_path, 'static/fotos_perfil', nome_arquivo)
+    tamanho = (200, 200)
+
+    #Reduzindo o tamanho da imagem para poupar o banco de dados
+    imagem_reduzida = Image.open(imagem)
+    imagem_reduzida.thumbnail(tamanho)
+
+    #Salvando a imagem reduzida
+    imagem_reduzida.save(caminho_completo)
+
+    return nome_arquivo
+
+
 @app.route('/sair')
 @login_required
 def sair():
@@ -127,6 +149,9 @@ def editar_perfil():
     if form.validate_on_submit():
         current_user.email = form.email.data
         current_user.username = form.username.data
+        if form.foto_perfil.data:
+            nome_imagem = salvar_imagem(form.foto_perfil.data)
+            current_user.foto_perfil = nome_imagem
         database.session.commit()
         flash('Alterações salvas com SUCESSO!', 'alert-success')
         return redirect(url_for('perfil'))
