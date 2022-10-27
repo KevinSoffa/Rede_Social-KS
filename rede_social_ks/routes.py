@@ -103,7 +103,7 @@ def login_criacao():
 def salvar_imagem(imagem):
     codigo = secrets.token_hex(8)
 
-    #Mudando Nome de Arquivo
+    #Mudando Nome do Arquivo
     nome, extensao = os.path.splitext(imagem.filename)
     nome_arquivo = nome + codigo + extensao
     caminho_completo = os.path.join(app.root_path, 'static/fotos_perfil', nome_arquivo)
@@ -117,6 +117,17 @@ def salvar_imagem(imagem):
     imagem_reduzida.save(caminho_completo)
 
     return nome_arquivo
+
+
+def atualizar_linguagem_programacao(form):
+    #Salvando check-box de linguagem de programação
+    lista = []
+    for campo in form:
+        if 'dev_' in campo.name:
+            if campo.data:
+                lista.append(campo.label.text)
+    return ';'.join(lista)
+
 
 
 @app.route('/sair')
@@ -152,6 +163,7 @@ def editar_perfil():
         if form.foto_perfil.data:
             nome_imagem = salvar_imagem(form.foto_perfil.data)
             current_user.foto_perfil = nome_imagem
+        current_user.linguagem_programacao = atualizar_linguagem_programacao(form)
         database.session.commit()
         flash('Alterações salvas com SUCESSO!', 'alert-success')
         return redirect(url_for('perfil'))

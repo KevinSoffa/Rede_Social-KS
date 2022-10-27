@@ -14,8 +14,12 @@
            <span>{{ current_user.email }}</span>
            <div class="p-2 mt-2 bg-primary d-flex justify-content-between rounded text-white stats">
                 <div class="d-flex flex-column">
-                    <span class="articles">Cursos</span>
-                    <span class="number1">0</span>
+                    <span class="articles">Linguagem de programação</span>
+                    {% if 'Não informado' in current_user.linguagem_programacao %}
+                        <span class="number1">0</span>
+                    {% else %}
+                        <span class="number1">{{ current_user.linguagem_programacao.count(';') + 1 }}</span>
+                    {% endif %}
                 </div>
                 <div class="d-flex flex-column">
                     <span class="rating">Post's</span>
@@ -31,6 +35,16 @@
         </div>
     </div>
  </div>
+ <div class="row justify-content-center">
+    <div class="col col-4" style="text-align: center;">
+        <strong>Linguagens</strong><br>
+        {% for linguagem in current_user.linguagem_programacao.split(';') %}
+            <button type="button" class="btn btn-info mt-2" disabled>{{ linguagem }}</button>
+        {% endfor %}
+    </div>
+   
+ </div>
+ 
 {% block form_editar_perfil %}
 
 {% endblock %}

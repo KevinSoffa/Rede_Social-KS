@@ -80,6 +80,24 @@ class FormEditarPerfil(FlaskForm):
         'Atualizar foto de perfil',
         validators=[FileAllowed(['jpg', 'png'])]
     )
+    dev_python = BooleanField(
+        'Python'
+    )
+    dev_java_script = BooleanField(
+        'JavaScript'
+    )
+    dev_php = BooleanField(
+        'PHP'
+    )
+    dev_java = BooleanField(
+        'Java'
+    )
+    dev_back_end = BooleanField(
+        'Back-End'
+    )
+    dev_front_end = BooleanField(
+        'Front-End'
+    )
     botao_submit_editar_perfil = SubmitField(
         'Salvar Alterações'
     )

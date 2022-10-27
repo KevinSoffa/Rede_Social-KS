@@ -28,6 +28,16 @@
                                 {% endfor %}
                             {% endif %}
                         </div>
+                        <hr>
+                        <h3>Desenvolvedor</h3>
+                        {% for campo in form %}
+                            {% if 'dev_' in campo.name %}
+                                <div class="form-group form-check">
+                                    {{ campo.label }}
+                                    {{ campo(class="form-check-input mt-2") }}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
                     </fieldset>
                 {{ form.botao_submit_editar_perfil(class="btn btn-primary mt-2") }}
             </form>
