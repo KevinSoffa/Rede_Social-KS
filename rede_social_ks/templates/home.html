@@ -3,8 +3,28 @@
 
 {% block body %}
 
-        <div class="container">
-            <h1>Fernanda Soffa</h1>
+        <div class="container mt-3">
+            <h1 style="color:#153450;">KS - Rede</h1>
+            <h2>Desenvolvedores - Back e Front</h2>
+            <hr>
+            {% for post in posts %}
+                <div class="row border mt-4 p-3 meupost">
+                    <div class="col col-2">
+                        <div class="image pe-2"><img src="{{ url_for('static', filename='fotos_perfil/{}'. format(post.autor.foto_perfil)) }}" class="rounded" width="155" ></div>
+                        <strong>{{ post.autor.username }}</strong>
+                        <div class="row justify-content-center">
+                                {% for linguagem in post.autor.linguagem_programacao.split(';') %}
+                                    <button type="button" class="btn btn-info mt-2" disabled>{{ linguagem }}</button>
+                                {% endfor %}
+                         </div>
+                    </div>
+                    <div class="col-9">
+                        <a style="text-decoration: none;" href="{{ url_for('exibir_post', post_id=post.id) }}"><h3>{{ post.titulo }}</h3></a>
+                        <p>{{ post.corpo }}</p>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
+<div class="row mt-5"></div>
 
 {% endblock %}

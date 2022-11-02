@@ -1,14 +1,16 @@
-import secrets
-import os
+from turtle import pos
 from rede_social_ks import app, database, bcrypt
 from rede_social_ks.models import Usuario, Post
+import secrets
 from flask_login import current_user
 from PIL import Image
+import os
 
 from rede_social_ks.forms import (
     FormEditarPerfil,
     FormCriarConta, 
     FormLogin,
+    FormCriarPost
 )
 
 from flask_login import (
@@ -23,18 +25,19 @@ from flask import (
     redirect, 
     url_for,
     flash,
-    request
+    request,
+    abort
 )
 
 
-lista_usuarios = ['Kevin', 'Fernanda']
 
 
 
 @app.route('/')
 def home():
+    posts = Post.query.order_by(Post.id.desc())
 
-    return render_template('home.html')
+    return render_template('home.html', posts=posts)
 
 
 @app.route('/contato')
@@ -46,6 +49,7 @@ def contato():
 @app.route('/usuarios')
 @login_required # Esse decorator deixa apenas usuarios logados ter acesso a essas URL
 def usuarios():
+    lista_usuarios = Usuario.query.all()
 
     return render_template(
         'usuarios.html', 
@@ -147,10 +151,22 @@ def perfil():
     return render_template('perfil.html', foto_perfil=foto_perfil)
 
 
-@app.route('/post/criar')
+@app.route('/post/criar', methods=['GET', 'POST'])
 @login_required
 def criar_post():
-    return render_template('post.html')
+    form = FormCriarPost()
+    if form.validate_on_submit():
+        post = Post(
+            titulo=form.titulo.data,
+            corpo=form.corpo.data,
+            autor=current_user
+        )
+        database.session.add(post)
+        database.session.commit()
+        flash('Post criado com SUCESSO!', 'alert-success')
+        return redirect(url_for('home'))
+
+    return render_template('post.html', form=form)
 
 
 @app.route('/perfil/editar',  methods=['POST', 'GET'])
@@ -182,3 +198,38 @@ def editar_perfil():
         form=form
     )
 
+
+@app.route('/post/<post_id>', methods=['GET', 'POST'])
+@login_required
+def exibir_post(post_id):
+    post = Post.query.get(post_id)
+    if current_user == post.autor:
+        form = FormCriarPost()
+        if request.method == 'GET':
+            form.titulo.data = post.titulo
+            form.corpo.data = post.corpo
+        elif form.validate_on_submit():
+            post.titulo = form.titulo.data
+            post.corpo = form.corpo.data
+            database.session.commit()
+            flash('Post Atualizado com Sucesso!', 'alert-success')
+
+            return redirect(url_for('home'))
+    else:
+        form = None
+
+
+    return render_template('pagina_post.html', post=post, form=form)
+
+
+@app.route('/post/<post_id>/excluir', methods=['GET', 'POST'])
+@login_required
+def excluir_post(post_id):
+    post = Post.query.get(post_id)
+    if current_user == post.autor:
+        database.session.delete(post)
+        database.session.commit()
+        flash('Post Excluido com Sucesso!', 'alert-danger')
+        return redirect(url_for('home'))
+    else:
+        abort(403)

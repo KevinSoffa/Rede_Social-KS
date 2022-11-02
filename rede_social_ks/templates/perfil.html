@@ -7,8 +7,8 @@
     <div class="card p-3">
         <div class="d-flex align-items-center">
             <div class="image pe-2">
-        <img src="{{ foto_perfil }}" class="rounded" width="155" >
-        </div>
+                <img src="{{ foto_perfil }}" class="rounded" width="200" >
+            </div>
         <div class="ml-3 w-100">
            <h4 class="mb-0 mt-0">{{ current_user.username }}</h4>
            <span>{{ current_user.email }}</span>
@@ -23,7 +23,7 @@
                 </div>
                 <div class="d-flex flex-column">
                     <span class="rating">Post's</span>
-                    <span class="number3">0</span>
+                    <span class="number3">{{ current_user.contar_post() }}</span>
                 </div> 
            </div>
            <div class="button mt-2 d-flex flex-row align-items-center">

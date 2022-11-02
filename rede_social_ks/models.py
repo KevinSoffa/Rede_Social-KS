@@ -40,6 +40,9 @@ class Usuario(database.Model, UserMixin):
         default='Não informado',
     )
 
+    def contar_post(self):
+        return len(self.posts)
+
 
 class Post(database.Model):
     id = database.Column(

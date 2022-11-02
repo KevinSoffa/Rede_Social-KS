@@ -16,7 +16,8 @@ from wtforms import (
     PasswordField,
     SubmitField,
     EmailField,
-    BooleanField
+    BooleanField,
+    TextAreaField
 )
 
 
@@ -109,3 +110,18 @@ class FormEditarPerfil(FlaskForm):
                 raise ValidationError("""ERRO! E-mail já CADASTRADO! 
                                         Tente com outro e-mail válido.
                                     """)
+
+
+class FormCriarPost(FlaskForm):
+    titulo = StringField(
+        'Título do Post', 
+        validators=[DataRequired(), 
+        Length(2, 140)]
+    )
+    corpo = TextAreaField(
+        'Escreva seu Post aqui...', 
+        validators=[DataRequired()]
+    )
+    botao_submit = SubmitField(
+        'Publicar'
+    )
