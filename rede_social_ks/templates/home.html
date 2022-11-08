@@ -4,12 +4,15 @@
 {% block body %}
 
         <div class="container mt-3">
-            <h1 style="color:#153450;">KS - Rede</h1>
-            <h2>Desenvolvedores - Back e Front</h2>
+            <img src="/static/images/ks_home.png" width="350" height="140">
+            <h2 style="color:#153450 ;">Desenvolvedores - Back e Front</h2>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="{{ url_for('criar_post') }}" ><button type="button" class="btn btn-success">Criar novo Post</button></a>
+            </div>
             <hr>
             {% for post in posts %}
                 <div class="row border mt-4 p-3 meupost">
-                    <div class="col col-2">
+                    <div class="col col-2 ">
                         <div class="image pe-2"><img src="{{ url_for('static', filename='fotos_perfil/{}'. format(post.autor.foto_perfil)) }}" class="rounded" width="155" ></div>
                         <strong>{{ post.autor.username }}</strong>
                         <div class="row justify-content-center">

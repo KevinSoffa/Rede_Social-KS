@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #273142;">
     <div class="container-fluid container">
       <a class="navbar-brand" href="{{ url_for('home') }}">
         <img src="/static/images/nav_bar_ks.png" alt="Imagem Nav bar" width="65" height="50">
@@ -27,7 +27,7 @@
                 <a class="nav-link" href="{{ url_for('perfil') }}">Perfil</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('sair') }}">Sair</a>
+                <a class="nav-link text-danger" href="{{ url_for('sair') }}">Sair</a>
               </li>
             {% else %}
               <li class="nav-item">
@@ -40,4 +40,4 @@
         </ul>
       </div>
     </div>
-  </nav>
+</nav>
