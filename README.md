@@ -28,4 +28,11 @@ Dentre as principais funções temos; criação de conta (Muito dos acessos só 
 <h2>Edição e Exclusão de Post's</h2>
 <h3>Se você é o dono do Post, você pode editar ou excluir</h3>
 <img src="https://github.com/KevinSoffa/imagens/blob/main/edicao_excluir_post.png">
+<hr>
+<h2>Perfil</h2>
+<img src="https://github.com/KevinSoffa/imagens/blob/main/re_ks_perfil.png">
+<hr>
+<h2>Edição de Perfil</h2>
+<img src="https://github.com/KevinSoffa/imagens/blob/main/re_ks_edicao_perfil.png">
+
 
