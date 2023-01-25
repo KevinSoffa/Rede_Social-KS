@@ -3,64 +3,69 @@
 
 {% block body %}
 
-<div class="container">
-    <h1>Faça Login ou Crie sua Conta</h1>
-    <hr>
-    <div class="row">
-        <div class="col">
-            <form method="POST" action="" class="border p-4 mt-2">
-                {{ form_login.csrf_token }}
-                <legend><strong>Login</strong></legend>
-                    <fieldset>
-                        <div class="form-group">
-                            {{ form_login.email.label(class="form-control-label") }}
-                            {{form_login.email(class="form-control")}}
-                        </div>
-                        <div class="form-group mt-2">
-                            {{ form_login.senha.label(class="form-control-label") }}
-                            {{ form_login.senha(class="form-control") }}
-                        </div>
-                        <div class="form-group form-check form-switch">
-                            {{ form_login.lembrar_dados.label }}
-                            {{ form_login.lembrar_dados(class="form-check-input mt-2") }}
-                        </div>
-                    </fieldset>
-                {{ form_login.botao_submit_login(class="btn btn-primary mt-2") }}
-            </form>
-        </div>
-        <div class="col">
-            <form method="POST" action="" class="border p-4 mt-2">
-                {{ form_criar_conta.csrf_token }}
-                <legend><strong>Criar Conta</strong></legend>
-                    <fieldset>
-                        <div class="form-group">
-                            {{ form_criar_conta.username.label(class="form-control-label") }}
-                            {{ form_criar_conta.username(class="form-control") }}
-                        </div>
-                        <div class="form-group">
-                            {{ form_criar_conta.email.label(class="form-control-label mt-2") }}
-                            {% if form_criar_conta.email.erros %}
-                                {{ form_criar_conta.email(class="form-control is-invalid") }}
-                            <div class="invalid-feedback">
-                                {% for erro in form_criar_conta.email.errors %}
-                                    {{ erro }}
-                                {% endfor %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='/css/login-criacao.css') }}">
+<div class="container  mt-3">
+    <div class="cor-fonte">
+        <h1>Faça Login ou Crie sua Conta</h1>
+    </div>
+    <hr style="color: black;">
+    <div class="cor-fonte">
+        <div class="row">
+            <div class="col">
+                <form method="POST" action="" class="border p-4 mt-2">
+                    {{ form_login.csrf_token }}
+                    <legend><strong>Faça Login</strong></legend>
+                        <fieldset>
+                            <div class="form-group">
+                                {{ form_login.email.label(class="form-control-label") }}
+                                {{form_login.email(class="form-control")}}
                             </div>
-                            {% else %}
-                                {{ form_criar_conta.email(class="form-control") }}
-                            {% endif %}
-                        </div>
-                        <div class="form-group">
-                            {{ form_criar_conta.senha.label(class="form-control-label mt-2") }}
-                            {{ form_criar_conta.senha(class="form-control") }}
-                        </div>
-                        <div class="form-group">
-                            {{ form_criar_conta.confirmar_senha.label(class="form-control-label mt-2") }}
-                            {{ form_criar_conta.confirmar_senha(class="form-control") }}
-                        </div>
-                    </fieldset>
-                {{ form_criar_conta.botao_submit_criarconta(class="btn btn-success mt-3") }}
-            </form>
+                            <div class="form-group mt-2">
+                                {{ form_login.senha.label(class="form-control-label") }}
+                                {{ form_login.senha(class="form-control") }}
+                            </div>
+                            <div class="form-group form-check form-switch">
+                                {{ form_login.lembrar_dados.label }}
+                                {{ form_login.lembrar_dados(class="form-check-input mt-2") }}
+                            </div>
+                        </fieldset>
+                    {{ form_login.botao_submit_login(class="btn btn-primary mt-2") }}
+                </form>
+            </div>
+            <div class="col">
+                <form style="color: aliceblue;" method="POST" action="" class="border p-4 mt-2">
+                    {{ form_criar_conta.csrf_token }}
+                    <legend><strong>Crie sua Conta</strong></legend>
+                        <fieldset>
+                            <div class="form-group">
+                                {{ form_criar_conta.username.label(class="form-control-label") }}
+                                {{ form_criar_conta.username(class="form-control") }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_criar_conta.email.label(class="form-control-label mt-2") }}
+                                {% if form_criar_conta.email.erros %}
+                                    {{ form_criar_conta.email(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for erro in form_criar_conta.email.errors %}
+                                        {{ erro }}
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                    {{ form_criar_conta.email(class="form-control") }}
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                {{ form_criar_conta.senha.label(class="form-control-label mt-2") }}
+                                {{ form_criar_conta.senha(class="form-control") }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_criar_conta.confirmar_senha.label(class="form-control-label mt-2") }}
+                                {{ form_criar_conta.confirmar_senha(class="form-control") }}
+                            </div>
+                        </fieldset>
+                    {{ form_criar_conta.botao_submit_criarconta(class="btn btn-success mt-3") }}
+                </form>
+            </div>
         </div>
     </div>
 </div>
