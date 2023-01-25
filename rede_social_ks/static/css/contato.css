@@ -1,0 +1,15 @@
+h1 {
+    color: aliceblue;
+}
+
+a {
+    color: aliceblue;
+}
+
+#contact {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+  }
